@@ -151,14 +151,6 @@ function Minigraph(props) {
           return x(new Date(d['date'] + '2020'));
         })
         .attr('cy', function (d) {
-          /* const today =
-          data[data.length - 1]['dailyconfirmed'] -
-          data[data.length - 1]['dailyrecovered'] -
-          data[data.length - 1]['dailydeceased'];
-        const yesterday =
-          data[data.length - 2]['dailyconfirmed'] -
-          data[data.length - 2]['dailyrecovered'] -
-          data[data.length - 2]['dailydeceased'];*/
           return y1(
             d['dailyconfirmed'] - d['dailyrecovered'] - d['dailydeceased']
           );
@@ -178,7 +170,7 @@ function Minigraph(props) {
         .append('path')
         .datum(data)
         .attr('fill', 'none')
-        .attr('stroke', '#28a74599')
+        .attr('stroke', '#343a40')
         .attr('stroke-width', 3)
         .attr('cursor', 'pointer')
         .attr(
@@ -190,9 +182,9 @@ function Minigraph(props) {
             })
             .y(function (d, i) {
               if (i === 0) {
-                return y1(d['dailyrecovered']);
+                return y1(d['dailymortality']);
               } else {
-                return y1(d['dailyrecovered']);
+                return y1(d['dailymortality']);
               }
             })
             .curve(d3.curveCardinal)
@@ -211,8 +203,8 @@ function Minigraph(props) {
         .data(data.slice(data.length - 1))
         .enter()
         .append('circle')
-        .attr('fill', '#28a745')
-        .attr('stroke', '#28a745')
+        .attr('fill', '#000')
+        .attr('stroke', '#000')
         .attr('r', 2)
         .attr('cursor', 'pointer')
         .attr('cx', function (d) {
@@ -325,11 +317,11 @@ function Minigraph(props) {
       </div>
 
       <div
-        className="svg-parent is-green fadeInUp"
-        style={{animationDelay: '0.8s'}}
+        className="svg-parent is-gray fadeInUp"
+        style={{animationDelay: '0.9s'}}
       >
         <svg
-          ref={graphElement3}
+          ref={graphElement4}
           width="100"
           height="100"
           viewBox="0 0 100 100"
@@ -338,11 +330,11 @@ function Minigraph(props) {
       </div>
 
       <div
-        className="svg-parent is-gray fadeInUp"
-        style={{animationDelay: '0.9s'}}
+        className="svg-parent is-black fadeInUp"
+        style={{animationDelay: '0.8s'}}
       >
         <svg
-          ref={graphElement4}
+          ref={graphElement3}
           width="100"
           height="100"
           viewBox="0 0 100 100"

@@ -4,7 +4,7 @@ function Level(props) {
   const [data, setData] = useState(props.data);
   const [confirmed, setConfirmed] = useState(0);
   const [active, setActive] = useState(0);
-  const [recoveries, setRecoveries] = useState(0);
+  const [mortality, setMortality] = useState(0);
   const [deaths, setDeaths] = useState(0);
 
   useEffect(() => {
@@ -15,19 +15,18 @@ function Level(props) {
     const parseData = () => {
       let confirmed = 0;
       let active = 0;
-      let recoveries = 0;
       let deaths = 0;
       data.forEach((state, index) => {
         if (index !== 0) {
           confirmed += parseInt(state.confirmed);
           active += parseInt(state.active);
-          recoveries += parseInt(state.recovered);
           deaths += parseInt(state.deaths);
         }
       });
+      const mortality = confirmed > 0 ? deaths / confirmed : 0;
       setConfirmed(confirmed);
       setActive(active);
-      setRecoveries(recoveries);
+      setMortality(mortality);
       setDeaths(deaths);
     };
     parseData();
@@ -56,20 +55,6 @@ function Level(props) {
         <h1 className="title has-text-info">{active}</h1>
       </div>
 
-      <div className="level-item is-green">
-        <h5 className="heading">Recovered</h5>
-        <h4>
-          [
-          {props.deltas
-            ? props.deltas.recovereddelta >= 0
-              ? '+' + props.deltas.recovereddelta
-              : '+0'
-            : ''}
-          ]
-        </h4>
-        <h1 className="title has-text-success">{recoveries} </h1>
-      </div>
-
       <div className="level-item is-gray">
         <h5 className="heading">Deceased</h5>
         <h4>
@@ -82,6 +67,38 @@ function Level(props) {
           ]
         </h4>
         <h1 className="title has-text-grey">{deaths}</h1>
+      </div>
+
+      <div className="level-item is-black">
+        <h5 className="heading">Mortality</h5>
+        <h4>
+          [
+          {props.deltas
+            ? props.deltas.confirmeddelta && props.deltas.deceaseddelta
+              ? mortality -
+                  (deaths - props.deltas.deceaseddelta) /
+                    (confirmed - props.deltas.confirmeddelta) >
+                0
+                ? '+' +
+                  (
+                    100 *
+                    (mortality -
+                      (deaths - props.deltas.deceaseddelta) /
+                        (confirmed - props.deltas.confirmeddelta))
+                  ).toFixed(2)
+                : (
+                    100 *
+                    (mortality -
+                      (deaths - props.deltas.deceaseddelta) /
+                        (confirmed - props.deltas.confirmeddelta))
+                  ).toFixed(2)
+              : '+0'
+            : ''}
+          %]
+        </h4>
+        <h1 className="title has-text-success">
+          {(100 * mortality).toFixed(2)}%{' '}
+        </h1>
       </div>
     </div>
   );

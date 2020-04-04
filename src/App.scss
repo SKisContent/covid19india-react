@@ -110,6 +110,7 @@ $green-mid: #28a74599;
 $teal: #20c997;
 $cyan: #17a2b8;
 $white: #fff;
+$black: #000;
 $gray: #6c757d;
 $gray-light: #6c757d10;
 $gray-hover: #6c757d20;
@@ -363,7 +364,7 @@ h6 {
   flex-direction: column;
   align-self: center;
   text-align: right;
-  margin-bottom: auto;
+  margin-bottom: inherit;
   margin-top: 0.25rem;
 
   h6 {
@@ -535,6 +536,13 @@ h6 {
 
     h4,
     h5 { color: $gray-mid; }
+  }
+
+  .is-black {
+    h1 { color: #000000; }
+
+    h4,
+    h5 { color: $dark; }
   }
 }
 
@@ -781,6 +789,11 @@ table {
   }
 }
 
+.viewport {
+  overflow-y: auto;
+  height: 600px;
+}
+
 #chart {
   z-index: 10;
 }
@@ -851,6 +864,7 @@ table {
     flex-direction: row;
     justify-content: space-between;
     height: 1rem;
+    margin-bottom: 10px;
 
     .district-last-update{
       position: absolute;
@@ -945,6 +959,14 @@ table {
         h6 { color: $gray-mid; }
 
         h1 { color: $gray; }
+      }
+
+      &.is-black {
+        background: $gray-mid;
+        h5,
+        h6 { color: $black; }
+
+        h1 { color: $white; }
       }
 
       &.is-yellow {

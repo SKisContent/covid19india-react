@@ -21,7 +21,14 @@ function Summary(props) {
     axios
       .get('https://api.covid19india.org/data.json')
       .then((response) => {
-        setStates(response.data.statewise);
+        setStates(
+          response.data.statewise.forEach((d) => {
+            d['mortality'] =
+              parseInt(d.confirmed) > 0
+                ? parseInt(d.deaths) / parseInt(d.confirmed)
+                : 0;
+          })
+        );
         setDeltas(response.data.key_values[0]);
         setTimeseries(response.data.cases_time_series);
         setFetched(true);
@@ -45,12 +52,14 @@ function Summary(props) {
         <div className="summary-bottom-left">
           <img
             src="icon.png"
-            alt="https://www.covid19india.org | Coronavirus cases live dashboard"
+            alt="https://covid19remix.herokuapp.com | Coronavirus cases live dashboard"
           />
           <h5>We stand with everyone fighting on the frontlines</h5>
         </div>
         <div className="link">
-          <a href="https://github.com/covid19india">covid19india.org</a>
+          <a href="https://github.com/SKisContent/covid19india-react">
+            https://covid19remix.herokuapp.com
+          </a>
         </div>
       </div>
     </div>

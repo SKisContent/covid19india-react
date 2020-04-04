@@ -120,17 +120,6 @@ function Row(props) {
           {parseInt(state.active) === 0 ? '-' : state.active}
         </td>
         <td
-          style={{
-            color: parseInt(state.recovered) === 0 ? '#B5B5B5' : 'inherit',
-          }}
-        >
-          {/* <span className="deltas" style={{color: '#28a745'}}>
-            {!state.delta.recovered==0 && <Icon.ArrowUp/>}
-            {state.delta.recovered > 0 ? `${state.delta.recovered}` : ''}
-          </span>*/}
-          {parseInt(state.recovered) === 0 ? '-' : state.recovered}
-        </td>
-        <td
           style={{color: parseInt(state.deaths) === 0 ? '#B5B5B5' : 'inherit'}}
         >
           {/* <span className="deltas" style={{color: '#6c757d'}}>
@@ -138,6 +127,19 @@ function Row(props) {
             {state.delta.deaths>0 ? `${state.delta.deaths}` : ''}
           </span>*/}
           {parseInt(state.deaths) === 0 ? '-' : state.deaths}
+        </td>
+        <td
+          style={{
+            color: parseInt(state.confirmed) === 0 ? '#B5B5B5' : 'inherit',
+          }}
+        >
+          {/* <span className="deltas" style={{color: '#28a745'}}>
+           {!state.delta.recovered==0 && <Icon.ArrowUp/>}
+           {state.delta.recovered > 0 ? `${state.delta.recovered}` : ''}
+           </span>*/}
+          {parseInt(state.confirmed) === 0
+            ? '-'
+            : (100 * state.mortality).toFixed(2)}
         </td>
       </tr>
 

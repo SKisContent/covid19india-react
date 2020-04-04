@@ -13,7 +13,6 @@ import Home from './components/home';
 import Navbar from './components/navbar';
 import Links from './components/links';
 import FAQ from './components/faq';
-import Banner from './components/banner';
 /* import PatientDB from './components/patientdb';*/
 
 const history = require('history').createBrowserHistory;
@@ -53,7 +52,6 @@ function App() {
           render={({location}) => (
             <div className="Almighty-Router">
               <Navbar pages={pages} />
-              <Banner />
               <Route exact path="/" render={() => <Redirect to="/" />} />
               <Switch location={location}>
                 {pages.map((page, i) => {
@@ -98,21 +96,13 @@ function App() {
           <span>Crowdsourced Patient Database&nbsp;</span>
         </a>
         <a
-          href="https://twitter.com/covid19indiaorg"
+          href="https://twitter.com/skiscontent"
           target="_noblank"
           className="button twitter"
           style={{justifyContent: 'center'}}
         >
           <Icon.Twitter />
           <span>View updates on Twitter</span>
-        </a>
-        <a
-          href="https://bit.ly/covid19crowd"
-          className="button telegram"
-          target="_noblank"
-        >
-          <Icon.MessageCircle />
-          <span>Join Telegram to Collaborate!</span>
         </a>
       </footer>
     </div>

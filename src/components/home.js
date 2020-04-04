@@ -38,6 +38,21 @@ function Home(props) {
         axios.get('https://api.covid19india.org/state_district_wise.json'),
         /* axios.get('https://api.covid19india.org/raw_data.json'),*/
       ]);
+      response.data.statewise.forEach((d) => {
+        d['mortality'] = parseInt(d.confirmed)
+          ? parseInt(d.deaths) / parseInt(d.confirmed)
+          : 0;
+      });
+      response.data.cases_time_series.forEach((d) => {
+        d['dailymortality'] =
+          parseInt(d.dailyconfirmed) && parseInt(d.dailydeaths)
+            ? parseInt(d.dailydeaths) / parseInt(d.dailyconfirmed)
+            : 0;
+        d['totalmortality'] =
+          parseInt(d.totalconfirmed) && parseInt(d.totaldeaths)
+            ? parseInt(d.totaldeaths) / parseInt(d.totalconfirmed)
+            : 0;
+      });
       setStates(response.data.statewise);
       setTimeseries(response.data.cases_time_series);
       setLastUpdated(response.data.statewise[0].lastupdatedtime);

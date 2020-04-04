@@ -222,7 +222,7 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
   }
 
   const [statistic, currentMapData] = useMemo(() => {
-    const statistic = {total: 0, maxConfirmed: 0};
+    const statistic = {total: 0, maxConfirmed: 0, mortalities: {}};
     let currentMapData = {};
 
     if (currentMap.mapType === MAP_TYPES.COUNTRY) {
@@ -235,7 +235,7 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
         if (confirmed > statistic.maxConfirmed) {
           statistic.maxConfirmed = confirmed;
         }
-
+        statistic.mortalities[state.state] = state.mortality;
         acc[state.state] = state.confirmed;
         return acc;
       }, {});
@@ -249,7 +249,13 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
         if (confirmed > statistic.maxConfirmed) {
           statistic.maxConfirmed = confirmed;
         }
-        acc[district] = districtWiseData[district].confirmed;
+        acc[district] =
+          districtWiseData[district].confirmed > 0
+            ? (
+                (100 * districtWiseData[district].deaths) /
+                districtWiseData[district].confirmed
+              ).toFixed(2)
+            : 0;
         return acc;
       }, {});
     }
@@ -380,40 +386,6 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
         )}
       </div>
 
-      <div className="map-stats">
-        <div className="stats">
-          <h5>Confirmed</h5>
-          <div className="stats-bottom">
-            <h1>{currentHoveredRegion.confirmed}</h1>
-            <h6>{}</h6>
-          </div>
-        </div>
-
-        <div className="stats is-blue">
-          <h5>Active</h5>
-          <div className="stats-bottom">
-            <h1>{currentHoveredRegion.active || ''}</h1>
-            <h6>{}</h6>
-          </div>
-        </div>
-
-        <div className="stats is-green">
-          <h5>Recovered</h5>
-          <div className="stats-bottom">
-            <h1>{currentHoveredRegion.recovered || ''}</h1>
-            <h6>{}</h6>
-          </div>
-        </div>
-
-        <div className="stats is-gray">
-          <h5>Deceased</h5>
-          <div className="stats-bottom">
-            <h1>{currentHoveredRegion.deaths || ''}</h1>
-            <h6>{}</h6>
-          </div>
-        </div>
-      </div>
-
       <div className="meta">
         <h2>{name}</h2>
         {lastupdatedtime && (
@@ -451,6 +423,39 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
             Back
           </div>
         ) : null}
+      </div>
+
+      <div className="map-stats">
+        <div className="stats">
+          <h5>Confirmed</h5>
+          <div className="stats-bottom">
+            <h1>{currentHoveredRegion.confirmed}</h1>
+            <h6>{}</h6>
+          </div>
+        </div>
+
+        <div className="stats is-blue">
+          <h5>Active</h5>
+          <div className="stats-bottom">
+            <h1>{currentHoveredRegion.active || ''}</h1>
+            <h6>{}</h6>
+          </div>
+        </div>
+
+        <div className="stats is-gray">
+          <h5>Deceased</h5>
+          <div className="stats-bottom">
+            <h1>{currentHoveredRegion.deaths || ''}</h1>
+            <h6>{}</h6>
+          </div>
+        </div>
+        <div className="stats is-black">
+          <h5>Mortality</h5>
+          <div className="stats-bottom">
+            <h1>{(100 * currentHoveredRegion.mortality).toFixed(2) + '%'}</h1>
+            <h6>{}</h6>
+          </div>
+        </div>
       </div>
 
       <ChoroplethMap
