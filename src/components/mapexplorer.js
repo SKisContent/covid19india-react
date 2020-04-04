@@ -249,13 +249,7 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
         if (confirmed > statistic.maxConfirmed) {
           statistic.maxConfirmed = confirmed;
         }
-        acc[district] =
-          districtWiseData[district].confirmed > 0
-            ? (
-                (100 * districtWiseData[district].deaths) /
-                districtWiseData[district].confirmed
-              ).toFixed(2)
-            : 0;
+        acc[district] = districtWiseData[district].confirmed;
         return acc;
       }, {});
     }
@@ -279,6 +273,7 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
             active: 0,
             deaths: 0,
             recovered: 0,
+            mortality: 0,
           };
         }
         setCurrentHoveredRegion(getRegionFromDistrict(districtData, name));

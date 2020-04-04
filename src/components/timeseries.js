@@ -318,39 +318,6 @@ function TimeSeries(props) {
           />
         </div>
 
-        <div className="svg-parent is-green">
-          <div className="stats is-green">
-            <h5>Recovered</h5>
-            <h5>
-              {timeseries.length - 1 === index
-                ? `${datapoint['date']} Yesterday`
-                : datapoint['date']}
-            </h5>
-            <div className="stats-bottom">
-              <h2>{datapoint['totalrecovered']}</h2>
-              <h6>
-                {timeseries.length > 0 && index !== 0
-                  ? timeseries[index]['totalrecovered'] -
-                      timeseries[index - 1]['totalrecovered'] >=
-                    0
-                    ? '+' +
-                      (timeseries[index]['totalrecovered'] -
-                        timeseries[index - 1]['totalrecovered'])
-                    : timeseries[index]['totalrecovered'] -
-                      timeseries[index - 1]['totalrecovered']
-                  : ''}
-              </h6>
-            </div>
-          </div>
-          <svg
-            ref={graphElement2}
-            width="650"
-            height="200"
-            viewBox="0 0 650 200"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </div>
-
         <div className="svg-parent is-gray">
           <div className="stats is-gray">
             <h5>Deceased</h5>
@@ -415,39 +382,6 @@ function TimeSeries(props) {
           </div>
           <svg
             ref={graphElement4}
-            width="650"
-            height="200"
-            viewBox="0 0 650 200"
-            preserveAspectRatio="xMidYMid meet"
-          />
-        </div>
-
-        <div className="svg-parent is-green">
-          <div className="stats is-green">
-            <h5>Recovered</h5>
-            <h5>
-              {timeseries.length - 1 === index
-                ? `${datapoint['date']} Yesterday`
-                : datapoint['date']}
-            </h5>
-            <div className="stats-bottom">
-              <h2>{datapoint['dailyrecovered']}</h2>
-              <h6>
-                {timeseries.length > 0 && index !== 0
-                  ? timeseries[index]['dailyrecovered'] -
-                      timeseries[index - 1]['dailyrecovered'] >=
-                    0
-                    ? '+' +
-                      (timeseries[index]['dailyrecovered'] -
-                        timeseries[index - 1]['dailyrecovered'])
-                    : timeseries[index]['dailyrecovered'] -
-                      timeseries[index - 1]['dailyrecovered']
-                  : ''}
-              </h6>
-            </div>
-          </div>
-          <svg
-            ref={graphElement5}
             width="650"
             height="200"
             viewBox="0 0 650 200"

@@ -108,13 +108,22 @@ function ChoroplethMap({
         .style('cursor', 'pointer')
         .append('title')
         .text(function (d) {
-          return (
-            parseFloat(
-              100 * statistic.mortalities[d.properties[propertyField]]
-            ).toFixed(2) +
-            '% mortality in ' +
-            toTitleCase(d.properties[propertyField])
-          );
+          if (propertyField === 'district') {
+            const value = mapData[d.properties[propertyField]] || 0;
+            return (
+              (100 * (value / (statistic.total || 0.001))).toFixed(2) +
+              '% from ' +
+              toTitleCase(d.properties[propertyField])
+            );
+          } else {
+            return (
+              (
+                100 * statistic.mortalities[d.properties[propertyField]]
+              ).toFixed(2) +
+              '% mortality in ' +
+              toTitleCase(d.properties[propertyField])
+            );
+          }
         });
 
       svg
@@ -132,6 +141,7 @@ function ChoroplethMap({
       setHoveredRegion,
       mapData,
       statistic.maxConfirmed,
+      statistic.total,
       statistic.mortalities,
       changeMap,
     ]
