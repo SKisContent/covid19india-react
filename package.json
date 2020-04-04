@@ -2,6 +2,8 @@
   "name": "covid19india",
   "version": "1.0.0",
   "private": true,
+  "main": "index.js",
+  "type": "module",
   "homepage": "http://covid19india.github.io/",
   "dependencies": {
     "axios": "^0.19.2",
