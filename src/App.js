@@ -71,29 +71,26 @@ function App() {
       </Router>
 
       <footer className="fadeInUp" style={{animationDelay: '2s'}}>
-        {/* <img
-          src="/icon.png"
-          alt="https://www.covid19india.org | Coronavirus cases live dashboard"
-        />*/}
-
-        <h5>We stand with everyone fighting on the frontlines</h5>
         <div className="link">
-          <a href="https://github.com/covid19india">covid19india</a>
+          Forked from&nbsp;
+          <a href="https://github.com/covid19india/covid19india-react">
+            covid19india-react
+          </a>
         </div>
         <a
-          href="https://github.com/covid19india/covid19india-react"
+          href="https://github.com/SKisContent/covid19india-react"
           className="button github"
         >
           <Icon.GitHub />
           <span>Open Sourced on GitHub</span>
         </a>
         <a
-          className="button excel"
           href="https://bit.ly/patientdb"
           target="_noblank"
+          className="button excel"
         >
           <Icon.Database />
-          <span>Crowdsourced Patient Database&nbsp;</span>
+          <span>Crowdsourced Patient Database</span>
         </a>
         <a
           href="https://twitter.com/skiscontent"
@@ -102,7 +99,7 @@ function App() {
           style={{justifyContent: 'center'}}
         >
           <Icon.Twitter />
-          <span>View updates on Twitter</span>
+          <span>Feedback and suggestions </span>
         </a>
       </footer>
     </div>
