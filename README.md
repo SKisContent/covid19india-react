@@ -1,6 +1,7 @@
 ## Why this?
-The main difference from the original is this page contains mortality rates
-<a href="https://newspie.in/covid19india">On newspie.in</a>
+The main difference from the original is this page contains mortality rates.
+
+See it on <a href="https://newspie.in/covid19india">newspie.in</a>
 
 # covid19india
 
