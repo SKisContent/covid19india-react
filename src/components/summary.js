@@ -21,14 +21,16 @@ function Summary(props) {
     axios
       .get('https://api.covid19india.org/data.json')
       .then((response) => {
-        setStates(
-          response.data.statewise.forEach((d) => {
-            d['mortality'] =
-              parseInt(d.confirmed) > 0
-                ? parseInt(d.deaths) / parseInt(d.confirmed)
-                : 0;
-          })
-        );
+        response.data.statewise.forEach((d) => {
+          d['confirmed'] = d.confirmed ? parseInt(d.confirmed) : 0;
+          d['deaths'] = d.deaths ? parseInt(d.deaths) : 0;
+          d['mortality'] = d.confirmed ? d.deaths / d.confirmed : 0;
+          d['deltaconfirmed'] = d.deltaconfirmed
+            ? parseInt(d.deltaconfirmed)
+            : 0;
+          d['deltadeaths'] = d.deltadeaths ? parseInt(d.deltadeaths) : 0;
+        });
+        setStates(response);
         setDeltas(response.data.key_values[0]);
         setTimeseries(response.data.cases_time_series);
         setFetched(true);
@@ -58,7 +60,7 @@ function Summary(props) {
         </div>
         <div className="link">
           <a href="https://github.com/SKisContent/covid19india-react">
-            https://covid19remix.herokuapp.com
+            https://newspie.in/covid19india
           </a>
         </div>
       </div>

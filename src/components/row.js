@@ -105,8 +105,8 @@ function Row(props) {
         <td style={{fontWeight: 600}}>{state.state}</td>
         <td>
           <span className="deltas" style={{color: '#ff073a'}}>
-            {state.delta.confirmed > 0 && <Icon.ArrowUp />}
-            {state.delta.confirmed > 0 ? `${state.delta.confirmed}` : ''}
+            {state.deltaconfirmed > 0 && <Icon.ArrowUp />}
+            {state.deltaconfirmed > 0 ? `${state.deltaconfirmed}` : ''}
           </span>
           {parseInt(state.confirmed) === 0 ? '-' : state.confirmed}
         </td>

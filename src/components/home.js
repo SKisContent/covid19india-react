@@ -20,7 +20,6 @@ function Home(props) {
   const [graphOption, setGraphOption] = useState(1);
   const [lastUpdated, setLastUpdated] = useState('');
   const [timeseries, setTimeseries] = useState([]);
-  const [deltas, setDeltas] = useState([]);
   const [timeseriesMode, setTimeseriesMode] = useState(true);
   const [timeseriesLogMode, setTimeseriesLogMode] = useState(false);
   const [regionHighlighted, setRegionHighlighted] = useState(undefined);
@@ -39,24 +38,28 @@ function Home(props) {
         /* axios.get('https://api.covid19india.org/raw_data.json'),*/
       ]);
       response.data.statewise.forEach((d) => {
-        d['mortality'] = parseInt(d.confirmed)
-          ? parseInt(d.deaths) / parseInt(d.confirmed)
-          : 0;
+        d['confirmed'] = d.confirmed ? parseInt(d.confirmed) : 0;
+        d['deaths'] = d.deaths ? parseInt(d.deaths) : 0;
+        d['mortality'] = d.confirmed ? d.deaths / d.confirmed : 0;
+        d['deltaconfirmed'] = d.deltaconfirmed ? parseInt(d.deltaconfirmed) : 0;
+        d['deltadeaths'] = d.deltadeaths ? parseInt(d.deltadeaths) : 0;
       });
       response.data.cases_time_series.forEach((d) => {
-        d['dailymortality'] =
-          parseInt(d.dailyconfirmed) && parseInt(d.dailydeaths)
-            ? parseInt(d.dailydeaths) / parseInt(d.dailyconfirmed)
-            : 0;
-        d['totalmortality'] =
-          parseInt(d.totalconfirmed) && parseInt(d.totaldeaths)
-            ? parseInt(d.totaldeaths) / parseInt(d.totalconfirmed)
-            : 0;
+        d['dailyconfirmed'] = d.dailyconfirmed ? parseInt(d.dailyconfirmed) : 0;
+        d['dailydeceased'] = d.dailydeceased ? parseInt(d.dailydeceased) : 0;
+        d['dailymortality'] = d.dailyconfirmed
+          ? d.dailydeceased / d.dailyconfirmed
+          : 0;
+
+        d['totalconfirmed'] = d.totalconfirmed ? parseInt(d.totalconfirmed) : 0;
+        d['totaldeceased'] = d.totaldeceased ? parseInt(d.totaldeceased) : 0;
+        d['totalmortality'] = d.totalconfirmed
+          ? d.totaldeceased / d.totalconfirmed
+          : 0;
       });
       setStates(response.data.statewise);
       setTimeseries(response.data.cases_time_series);
       setLastUpdated(response.data.statewise[0].lastupdatedtime);
-      setDeltas(response.data.key_values[0]);
       setStateDistrictWiseData(stateDistrictWiseResponse.data);
       /* setPatients(rawDataResponse.data.raw_data.filter((p) => p.detectedstate));*/
       setFetched(true);
@@ -101,7 +104,7 @@ function Home(props) {
             </div>
           </div>
         </div>
-        <Level data={states} deltas={deltas} />
+        {states.length > 1 && <Level data={states} />}
         <Minigraph timeseries={timeseries} animate={true} />
         <Table
           states={states}
