@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {formatDistance} from 'date-fns';
-import {formatDate, formatDateAbsolute} from '../utils/common-functions';
+import {formatDate, formatDateInMillis} from '../utils/common-functions';
 /* import * as Icon from 'react-feather';
 import {Link} from 'react-router-dom';*/
 
@@ -43,6 +43,20 @@ function Home(props) {
         d['mortality'] = d.confirmed ? d.deaths / d.confirmed : 0;
         d['deltaconfirmed'] = d.deltaconfirmed ? parseInt(d.deltaconfirmed) : 0;
         d['deltadeaths'] = d.deltadeaths ? parseInt(d.deltadeaths) : 0;
+        d['lastupdatedtime'] = d.lastupdatedtime
+          ? new Date(formatDate(d.lastupdatedtime))
+          : 0;
+        if (d.state !== 'Total' && stateDistrictWiseResponse.data[d.state]) {
+          const stateData = stateDistrictWiseResponse.data[d.state];
+          for (const district in stateData.districtData) {
+            if (stateData.districtData.hasOwnProperty(district)) {
+              const ds = stateData.districtData[district];
+              ds['lastupdatedtime'] = ds.lastupdatedtime
+                ? new Date(formatDate(ds.lastupdatedtime))
+                : 0;
+            }
+          }
+        }
       });
       response.data.cases_time_series.forEach((d) => {
         d['dailyconfirmed'] = d.dailyconfirmed ? parseInt(d.dailyconfirmed) : 0;
@@ -57,9 +71,11 @@ function Home(props) {
           ? d.totaldeceased / d.totalconfirmed
           : 0;
       });
+
       setStates(response.data.statewise);
       setTimeseries(response.data.cases_time_series);
-      setLastUpdated(response.data.statewise[0].lastupdatedtime);
+      const lastUpdated = response.data.statewise[0].lastupdatedtime;
+      setLastUpdated(lastUpdated.toString());
       setStateDistrictWiseData(stateDistrictWiseResponse.data);
       /* setPatients(rawDataResponse.data.raw_data.filter((p) => p.detectedstate));*/
       setFetched(true);
@@ -89,17 +105,15 @@ function Home(props) {
             <div className="last-update">
               <h6>Last Updated</h6>
               <h6 style={{color: '#28a745', fontWeight: 600}}>
-                {isNaN(Date.parse(formatDate(lastUpdated)))
+                {isNaN(Date.parse(lastUpdated))
                   ? ''
-                  : formatDistance(
-                      new Date(formatDate(lastUpdated)),
-                      new Date()
-                    ) + ' Ago'}
+                  : formatDistance(Date.parse(lastUpdated), new Date()) +
+                    ' Ago'}
               </h6>
               <h6 style={{color: '#28a745', fontWeight: 600}}>
-                {isNaN(Date.parse(formatDate(lastUpdated)))
+                {isNaN(Date.parse(lastUpdated))
                   ? ''
-                  : formatDateAbsolute(lastUpdated)}
+                  : formatDateInMillis(Date.parse(lastUpdated))}
               </h6>
             </div>
           </div>

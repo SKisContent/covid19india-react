@@ -27,3 +27,20 @@ export const formatDateAbsolute = (unformattedDate) => {
   const time = unformattedDate.slice(11);
   return `${day} ${months[month]}, ${time.slice(0, 5)} IST`;
 };
+
+export const formatDateInMillis = (epochTime) => {
+  const unformattedDate = new Date(epochTime + 5.5 * 3600000);
+  const day = unformattedDate.getDate();
+  let month = unformattedDate.getMonth() + 1;
+  month = month < 10 ? '0' + month : month.toString();
+  const year = unformattedDate.getFullYear();
+  // const day = unformattedDate.getDate();
+  // const day = unformattedDate.getDate();
+  const hours = unformattedDate.getHours();
+  const minutes =
+    unformattedDate.getMinutes() < 10
+      ? '0' + unformattedDate.getMinutes()
+      : unformattedDate.getMinutes();
+
+  return `${day} ${months[month]}, ${year} ${hours}:${minutes} IST`;
+};

@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useMemo, useCallback} from 'react';
 import ChoroplethMap from './choropleth';
 import {MAP_TYPES, MAPS_DIR} from '../constants';
-import {formatDate} from '../utils/common-functions';
 import {formatDistance} from 'date-fns';
 
 const mapMeta = {
@@ -393,12 +392,9 @@ export default function ({states, stateDistrictWiseData, regionHighlighted}) {
           >
             <h6>Last Updated</h6>
             <h3>
-              {isNaN(Date.parse(formatDate(lastupdatedtime)))
+              {isNaN(lastupdatedtime)
                 ? ''
-                : formatDistance(
-                    new Date(formatDate(lastupdatedtime)),
-                    new Date()
-                  ) + ' Ago'}
+                : formatDistance(lastupdatedtime, new Date()) + ' Ago'}
             </h3>
           </div>
         )}

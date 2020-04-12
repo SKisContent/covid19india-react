@@ -7,7 +7,6 @@ function Table(props) {
   const [states, setStates] = useState(props.states);
   const [revealedStates, setRevealedStates] = useState({});
   const [districts, setDistricts] = useState({});
-  const [count, setCount] = useState(0);
   const [sortData, setSortData] = useState({
     sortColumn: localStorage.getItem('state.sortColumn')
       ? localStorage.getItem('state.sortColumn')
@@ -38,7 +37,7 @@ function Table(props) {
   useEffect(() => {
     if (states.length > 0) {
       // slice to ignore the first item which is the total count
-      setCount(states.slice(1).filter((s) => s && s.confirmed > 0).length);
+      // setCount(states.slice(1).filter((s) => s && s.confirmed > 0).length);
     }
   }, [states]);
 
@@ -284,7 +283,7 @@ function Table(props) {
         </table>
       </div>
       <h5 className="table-fineprint fadeInUp" style={{animationDelay: '1s'}}>
-        {count} States/UTS Affected
+        Lighter color indicates data data over 12 or 24 hours old.
       </h5>
     </React.Fragment>
   );

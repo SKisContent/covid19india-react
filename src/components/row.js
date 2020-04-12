@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import * as Icon from 'react-feather';
-import {formatDate} from '../utils/common-functions';
 import {formatDistance} from 'date-fns';
 function Row(props) {
   const [state, setState] = useState(props.state);
@@ -97,7 +96,15 @@ function Row(props) {
         onMouseEnter={() => props.onHighlightState?.(state, props.index)}
         onMouseLeave={() => props.onHighlightState?.()}
         touchstart={() => props.onHighlightState?.(state, props.index)}
-        style={{background: props.index % 2 === 0 ? '#f8f9fa' : ''}}
+        style={{
+          background: props.index % 2 === 0 ? '#f8f9fa' : '',
+          color:
+            (new Date() - state.lastupdatedtime) / 3600000 < 12
+              ? '#333'
+              : (new Date() - state.lastupdatedtime) / 3600000 < 24
+              ? '##6c757d99'
+              : '#ccc',
+        }}
         onClick={() => {
           handleReveal();
         }}
@@ -143,10 +150,10 @@ function Row(props) {
           <div className="last-update">
             <h6>Last Updated&nbsp;</h6>
             <h6>
-              {isNaN(Date.parse(formatDate(props.state.lastupdatedtime)))
+              {isNaN(props.state.lastupdatedtime)
                 ? ''
                 : `${formatDistance(
-                    new Date(formatDate(props.state.lastupdatedtime)),
+                    props.state.lastupdatedtime,
                     new Date()
                   )} Ago`}
             </h6>
